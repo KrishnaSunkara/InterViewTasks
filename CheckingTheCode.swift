@@ -15,7 +15,7 @@ struct AvailbleSyntaxChecks {
 class CheckingTheCode {
     func checkTheGoodString() {
         
-        let inputString = "({}[][]){}{}{}()"
+        let inputString = "({}[][])){]]{"
         
         let arrofString = inputString.split(separator: "")
         
@@ -32,19 +32,20 @@ class CheckingTheCode {
         
         for i in 0..<arrofString.count {
             let symbolis = String(arrofString[i])
+            print("symbol is",symbolis)
             if startingValues.contains(symbolis) {
                 availableSets.append(AvailbleSyntaxChecks.init(startingSymbol: String(symbolis), endingSymbol: closingBracesDict[String(symbolis)] ?? ""))
             }
             else {
                 if endingValues.contains(symbolis) {
-                    if !availableSets.isEmpty {
-                        if  let lastObject = availableSets.last {
-                            if lastObject.endingSymbol == symbolis {
-                                availableSets.removeLast()
-                            } else {
-                                availableSets.append(AvailbleSyntaxChecks.init(startingSymbol: String(symbolis), endingSymbol: closingBracesDict[String(symbolis)] ?? ""))
-                            }
+                    if  let lastObject = availableSets.last {
+                        if lastObject.endingSymbol == symbolis {
+                            availableSets.removeLast()
+                        } else {
+                            availableSets.append(AvailbleSyntaxChecks.init(startingSymbol: String(symbolis), endingSymbol: closingBracesDict[String(symbolis)] ?? ""))
                         }
+                    } else {
+                        availableSets.append(AvailbleSyntaxChecks.init(startingSymbol: String(symbolis), endingSymbol: closingBracesDict[String(symbolis)] ?? ""))
                     }
                 }
             }
@@ -52,7 +53,7 @@ class CheckingTheCode {
         if availableSets.count == 0 {
             print("Its good one")
         } else {
-            print("Its a bad one")
+            print("Its a bad one", availableSets)
         }
     }
     
